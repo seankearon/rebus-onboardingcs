@@ -5,9 +5,8 @@
     <projectFile>OnboardingProcessor/OnboardingProcessor.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72e29930-91c9-4337-ba5d-727ccceefe4c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OnboardingCS.sln" afterDir="false" />
+    <list default="true" id="72e29930-91c9-4337-ba5d-727ccceefe4c" name="Default Changelist" comment="Added base projects.">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.OnboardingCS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.OnboardingCS/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,8 +93,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1604909386567</updated>
-      <workItem from="1604909390168" duration="683000" />
+      <workItem from="1604909390168" duration="1363000" />
     </task>
+    <task id="LOCAL-00001" summary="Added base projects.">
+      <created>1604910117525</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1604910117525</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -116,5 +123,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Added base projects." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added base projects." />
   </component>
 </project>
