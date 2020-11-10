@@ -1,5 +1,11 @@
 ﻿namespace OnboardingMessages
 {
+    public record OnboardNewCustomer
+    {
+        public string Name  { get; init; }
+        public string Email { get; init; }
+    }
+
     public record CreateCustomerAccount
     {
         public string Name  { get; init; }
