@@ -1,22 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using OnboardingMessages;
+using Rebus.Bus;
 
 namespace EntryPointAPI.Controllers
 {
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ILogger<CustomerController> _logger;
+        private readonly IBus _bus;
 
-        public CustomerController(ILogger<CustomerController> logger)
+        public CustomerController(IBus bus)
         {
-            _logger = logger;
+            _bus = bus;
         }
 
         [HttpPost]
         [Route("newcustomer")]
-        public IActionResult NewCustomer()
+        public async Task<IActionResult> NewCustomer(string name, string email)
         {
+            await _bus.Send(new OnboardNewCustomer { Name = name, Email = email });
             return Ok();
         }
     }
