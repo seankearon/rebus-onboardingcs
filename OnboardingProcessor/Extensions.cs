@@ -19,7 +19,6 @@ namespace OnboardingProcessor
                    .Routing(r => r.TypeBased().MapAssemblyOf<OnboardNewCustomer>("MainQueue"))
                    .Transport(t => t.UseFileSystem("c:/rebus-advent", "MainQueue"))
                    .Options(t => t.SimpleRetryStrategy(errorQueueAddress: "ErrorQueue"))
-                   .Subscriptions(s => s.UseJsonFile("c:/rebus-advent/subscriptions.json"))
                    .Sagas(s => s.UseFilesystem("c:/rebus-advent/sagas"))
                 );
 
