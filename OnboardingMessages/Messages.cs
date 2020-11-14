@@ -14,22 +14,27 @@
 
     public record CustomerAccountCreated
     {
-        public string Email      { get; init; }
-        public int    CustomerId { get; init; }
+        public string Email     { get; init; }
+        public int    AccountId { get; init; }
     }
 
     public record SendWelcomeEmail
     {
-        public int CustomerId { get; init; }
+        public int AccountId { get; init; }
+    }
+
+    public record WelcomeEmailSent
+    {
+        public int AccountId { get; init; }
     }
 
     public record ScheduleSalesCall
     {
-        public int CustomerId { get; init; }
+        public int AccountId { get; init; }
     }
 
-    public record CustomerOnboarded
+    public record SalesCallScheduled
     {
-        public int CustomerId { get; init; }
+        public int AccountId { get; init; }
     }
 }
