@@ -2,7 +2,6 @@
 using OnboardingMessages;
 using Rebus.Config;
 using Rebus.Persistence.FileSystem;
-using Rebus.Persistence.InMem;
 using Rebus.Retry.Simple;
 using Rebus.Routing.TypeBased;
 using Rebus.ServiceProvider;

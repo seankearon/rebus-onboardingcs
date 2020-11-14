@@ -5,7 +5,7 @@ namespace OnboardingProcessor
 {
     static class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Log.Logger = new LoggerConfiguration()
                .WriteTo.Console()
