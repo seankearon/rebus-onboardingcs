@@ -4,3 +4,5 @@ obj/
 .idea
 riderModule.iml
 /_ReSharper.Caches/
+/.vs/OnboardingCS/DesignTimeBuild/.dtbcache.v2
+/.vs/OnboardingCS/v16/.suo

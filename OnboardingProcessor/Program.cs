@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using Topper;
 
 namespace OnboardingProcessor
 {
@@ -6,7 +7,14 @@ namespace OnboardingProcessor
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Log.Logger = new LoggerConfiguration()
+               .WriteTo.Console()
+               .CreateLogger();
+
+            var configuration = new ServiceConfiguration()
+               .Add("OurBackendBus", () => new Backend());
+
+            ServiceHost.Run(configuration);
         }
     }
 }
