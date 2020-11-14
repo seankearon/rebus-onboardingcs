@@ -3,7 +3,7 @@ using Topper;
 
 namespace OnboardingProcessor
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
