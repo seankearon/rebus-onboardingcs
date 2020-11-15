@@ -14,7 +14,7 @@ namespace OnboardingProcessor
 
         public string CustomerName  { get; set; }
         public string CustomerEmail { get; set; }
-        public int    AccountId    { get; set; }
+        public int    AccountId     { get; set; }
 
         public bool AccountCreated     { get; set; }
         public bool WelcomeEmailSent   { get; set; }
