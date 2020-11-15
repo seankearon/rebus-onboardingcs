@@ -4,6 +4,7 @@ using OnboardingMessages;
 using Rebus.Bus;
 using Rebus.Handlers;
 using Rebus.Sagas;
+using Serilog;
 
 namespace OnboardingProcessor
 {
@@ -40,6 +41,7 @@ namespace OnboardingProcessor
         {
             if (Data.IsComplete)
             {
+                Log.Information($"Onboarding completed for {Data.CustomerName}, {Data.CustomerEmail}, {Data.AccountId}.");
                 MarkAsComplete();
             }
         }
@@ -55,6 +57,7 @@ namespace OnboardingProcessor
         public async Task Handle(OnboardNewCustomer m)
         {
             if (!IsNew) return;
+            Log.Information($"Beginning onboarding process for {m.Name}, {m.Email}.");
 
             Data.CustomerName  = m.Name;
             Data.CustomerEmail = m.Email;
@@ -66,6 +69,8 @@ namespace OnboardingProcessor
 
         public async Task Handle(CustomerAccountCreated m)
         {
+            Log.Information($"Customer account created for {m.Email} with ID {m.AccountId}.");
+
             Data.AccountId = m.AccountId;
             Data.AccountCreated = true;
 
@@ -75,15 +80,17 @@ namespace OnboardingProcessor
             TryComplete();
         }
 
-        public Task Handle(WelcomeEmailSent _)
+        public Task Handle(WelcomeEmailSent m)
         {
+            Log.Information($"Welcome email sent for {m.AccountId}.");
             Data.WelcomeEmailSent = true;
             TryComplete();
             return Task.CompletedTask;
         }
 
-        public Task Handle(SalesCallScheduled _)
+        public Task Handle(SalesCallScheduled m)
         {
+            Log.Information($"Sales call scheduled for {m.AccountId}.");
             Data.SalesCallScheduled = true;
             TryComplete();
             return Task.CompletedTask;

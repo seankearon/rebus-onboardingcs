@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using OnboardingMessages;
 using Rebus.Bus;
 using Rebus.Handlers;
+using Serilog;
 
 namespace OnboardingProcessor
 {
@@ -17,6 +18,7 @@ namespace OnboardingProcessor
 
         public async Task Handle(CreateCustomerAccount m)
         {
+            Log.Information($"Creating customer account for {m.Name}, {m.Email}.");
             await Task.Delay(500); // Pretend we're doing something!
             await _bus.Reply(new CustomerAccountCreated {Email = m.Email, AccountId = new Random().Next()});
         }
@@ -33,6 +35,7 @@ namespace OnboardingProcessor
 
         public async Task Handle(SendWelcomeEmail m)
         {
+            Log.Information($"Sending welcome email for account {m.AccountId}.");
             await Task.Delay(500); // Pretend we're doing something!
             await _bus.Reply(new WelcomeEmailSent { AccountId = m.AccountId });
         }
@@ -49,6 +52,7 @@ namespace OnboardingProcessor
 
         public async Task Handle(ScheduleSalesCall m)
         {
+            Log.Information($"Scheduling sales call for account {m.AccountId}.");
             await Task.Delay(500); // Pretend we're doing something!
             await _bus.Reply(new SalesCallScheduled { AccountId = m.AccountId });
         }
