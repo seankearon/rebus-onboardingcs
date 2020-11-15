@@ -36,7 +36,7 @@ namespace OnboardingProcessor
             _bus = bus;
         }
 
-        private async Task TryComplete()
+        private void TryComplete()
         {
             if (Data.IsComplete)
             {
@@ -61,7 +61,7 @@ namespace OnboardingProcessor
 
             await _bus.Send(new CreateCustomerAccount {Name = m.Name, Email = m.Email});
 
-            await TryComplete();
+            TryComplete();
         }
 
         public async Task Handle(CustomerAccountCreated m)
@@ -72,19 +72,21 @@ namespace OnboardingProcessor
             await _bus.Send(new SendWelcomeEmail  {AccountId = Data.AccountId});
             await _bus.Send(new ScheduleSalesCall {AccountId = Data.AccountId});
 
-            await TryComplete();
+            TryComplete();
         }
 
-        public async Task Handle(WelcomeEmailSent _)
+        public Task Handle(WelcomeEmailSent _)
         {
             Data.WelcomeEmailSent = true;
-            await TryComplete();
+            TryComplete();
+            return Task.CompletedTask;
         }
 
-        public async Task Handle(SalesCallScheduled _)
+        public Task Handle(SalesCallScheduled _)
         {
             Data.SalesCallScheduled = true;
-            await TryComplete();
+            TryComplete();
+            return Task.CompletedTask;
         }
     }
 }
