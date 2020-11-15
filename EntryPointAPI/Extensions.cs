@@ -17,7 +17,7 @@ namespace EntryPointAPI
                    .Logging(l => l.Console())
                    .Routing(r => r.TypeBased().Map<OnboardNewCustomer>("MainQueue"))
                    .Transport(t => t.UseAzureServiceBusAsOneWayClient(config.GetConnectionString("AzureServiceBusConnectionString")))
-                   .Options(t => t.SimpleRetryStrategy(errorQueueAddress: "ErrorQueue", maxDeliveryAttempts: 1 )));
+                   .Options(t => t.SimpleRetryStrategy(errorQueueAddress: "ErrorQueue")));
         }
     }
 }
