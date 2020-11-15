@@ -18,6 +18,18 @@ namespace EntryPointAPI
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-               .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+               .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+               .ConfigureAppConfiguration((hostContext, builder) =>
+                {
+                    builder
+                       .AddJsonFile("appsettings.json", false, true)
+                       .AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", true)
+                       .AddEnvironmentVariables();
+
+                    if (hostContext.HostingEnvironment.IsDevelopment())
+                    {
+                        builder.AddUserSecrets<Startup>();
+                    }
+                });
     }
 }

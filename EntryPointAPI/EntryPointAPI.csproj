@@ -2,11 +2,14 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <UserSecretsId>rebus-advent-2020-entry-point-api</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.Azure.ServiceBus" Version="5.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
         <PackageReference Include="Rebus" Version="6.4.1" />
+        <PackageReference Include="Rebus.AzureServiceBus" Version="7.1.6" />
         <PackageReference Include="Rebus.ServiceProvider" Version="5.0.6" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     </ItemGroup>

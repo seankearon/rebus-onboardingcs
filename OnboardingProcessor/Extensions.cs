@@ -1,26 +1,26 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using OnboardingMessages;
+using Rebus.Auditing.Messages;
 using Rebus.Config;
-using Rebus.Persistence.FileSystem;
 using Rebus.Retry.Simple;
 using Rebus.Routing.TypeBased;
 using Rebus.ServiceProvider;
-using Rebus.Transport.FileSystem;
 
 namespace OnboardingProcessor
 {
     public static class Extensions
     {
-        public static void AddRebusAsSendAndReceive(this IServiceCollection services)
+        public static void AddRebusAsSendAndReceive(this IServiceCollection services, IConfiguration config)
         {
             services.AddRebus(
-                cfg => cfg
-                   .Logging(l => l.Serilog())
-                   .Routing(r => r.TypeBased().MapAssemblyOf<OnboardNewCustomer>("MainQueue"))
-                   .Transport(t => t.UseFileSystem("c:/rebus-advent", "MainQueue"))
-                   .Options(t => t.SimpleRetryStrategy(errorQueueAddress: "ErrorQueue"))
-                   .Sagas(s => s.UseFilesystem("c:/rebus-advent/sagas"))
-                   .Timeouts(t => t.UseFileSystem("c:/rebus-advent/timeouts"))
+                rebus => rebus
+                   .Logging  (l => l.Serilog())
+                   .Routing  (r => r.TypeBased().MapAssemblyOf<OnboardNewCustomer>("MainQueue"))
+                   .Transport(t => t.UseAzureServiceBus(config.GetConnectionString("AzureServiceBusConnectionString"), "MainQueue").AutomaticallyRenewPeekLock())
+                   .Options  (t => t.SimpleRetryStrategy(errorQueueAddress: "ErrorQueue"))
+                   .Options  (t => t.EnableMessageAuditing(auditQueue: "AuditQueue"))
+                   .Sagas    (s => s.StoreInSqlServer(config.GetConnectionString("MsSqlConnectionString"), "Sagas", "SagaIndexes"))
                 );
 
             services.AutoRegisterHandlersFromAssemblyOf<Backend>();

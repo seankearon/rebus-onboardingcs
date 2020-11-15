@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.Bus;
 using Rebus.ServiceProvider;
@@ -10,10 +11,10 @@ namespace OnboardingProcessor
         private readonly ServiceProvider _provider;
         private          IBus            _bus;
 
-        public Backend()
+        public Backend(IConfiguration configuration)
         {
             var services = new ServiceCollection();
-            services.AddRebusAsSendAndReceive();
+            services.AddRebusAsSendAndReceive(configuration);
             _provider = services.BuildServiceProvider();
             _provider.UseRebus(x => _bus = x);
         }
