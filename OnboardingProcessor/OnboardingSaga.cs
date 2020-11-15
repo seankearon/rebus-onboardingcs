@@ -29,6 +29,7 @@ namespace OnboardingProcessor
                                 , IHandleMessages<CustomerAccountCreated>
                                 , IHandleMessages<WelcomeEmailSent>
                                 , IHandleMessages<SalesCallScheduled>
+                                , IHandleMessages<OnboardingOlaBreached>
     {
         private readonly IBus _bus;
 
@@ -52,6 +53,7 @@ namespace OnboardingProcessor
             config.Correlate<CustomerAccountCreated>(x => x.Email, nameof(OnboardingSagaData.CustomerEmail));
             config.Correlate<WelcomeEmailSent>      (x => x.AccountId, nameof(OnboardingSagaData.AccountId));
             config.Correlate<SalesCallScheduled>    (x => x.AccountId, nameof(OnboardingSagaData.AccountId));
+            config.Correlate<OnboardingOlaBreached> (x => x.SagaId, nameof(OnboardingSagaData.Id));
         }
 
         public async Task Handle(OnboardNewCustomer m)
@@ -63,6 +65,7 @@ namespace OnboardingProcessor
             Data.CustomerEmail = m.Email;
 
             await _bus.Send(new CreateCustomerAccount {Name = m.Name, Email = m.Email});
+            await _bus.Defer(TimeSpan.FromSeconds(5), new OnboardingOlaBreached {SagaId = Data.Id});
 
             TryComplete();
         }
@@ -94,6 +97,21 @@ namespace OnboardingProcessor
             Data.SalesCallScheduled = true;
             TryComplete();
             return Task.CompletedTask;
+        }
+
+        public async Task Handle(OnboardingOlaBreached m)
+        {
+            Log.Information($"ONBOARDING OLA BREACH PENDING FOR for saga {m.SagaId}.");
+
+            if (Data.SalesCallScheduled)
+            {
+                await _bus.Send(new CancelSalesCall {AccountId = Data.AccountId});
+            }
+
+            await _bus.Send(new NotifyServiceDesk {Message = $"Customer onboarding OLA breach pending for new customer {Data.CustomerName} with email {Data.CustomerEmail}."});
+
+            Log.Information($"Abandoning saga {Data.Id}.");
+            MarkAsComplete();
         }
     }
 }

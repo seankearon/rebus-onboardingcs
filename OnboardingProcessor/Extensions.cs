@@ -2,6 +2,7 @@
 using OnboardingMessages;
 using Rebus.Config;
 using Rebus.Persistence.FileSystem;
+using Rebus.Persistence.InMem;
 using Rebus.Retry.Simple;
 using Rebus.Routing.TypeBased;
 using Rebus.ServiceProvider;
@@ -20,6 +21,7 @@ namespace OnboardingProcessor
                    .Transport(t => t.UseFileSystem("c:/rebus-advent", "MainQueue"))
                    .Options(t => t.SimpleRetryStrategy(errorQueueAddress: "ErrorQueue"))
                    .Sagas(s => s.UseFilesystem("c:/rebus-advent/sagas"))
+                   .Timeouts(t => t.StoreInMemory())
                 );
 
             services.AutoRegisterHandlersFromAssemblyOf<Backend>();

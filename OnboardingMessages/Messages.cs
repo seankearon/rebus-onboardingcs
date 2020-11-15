@@ -1,4 +1,6 @@
-﻿namespace OnboardingMessages
+﻿using System;
+
+namespace OnboardingMessages
 {
     public record OnboardNewCustomer
     {
@@ -36,5 +38,20 @@
     public record SalesCallScheduled
     {
         public int AccountId { get; init; }
+    }
+
+    public record OnboardingOlaBreached
+    {
+        public Guid SagaId { get; init; }
+    }
+
+    public record CancelSalesCall
+    {
+        public int AccountId { get; init; }
+    }
+
+    public record NotifyServiceDesk
+    {
+        public string Message { get; init; }
     }
 }

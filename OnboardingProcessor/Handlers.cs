@@ -36,7 +36,7 @@ namespace OnboardingProcessor
         public async Task Handle(SendWelcomeEmail m)
         {
             Log.Information($"Sending welcome email for account {m.AccountId}.");
-            await Task.Delay(500); // Pretend we're doing something!
+            await Task.Delay(10000); // This delay will breach our OLA rules!
             await _bus.Reply(new WelcomeEmailSent { AccountId = m.AccountId });
         }
     }
@@ -55,6 +55,24 @@ namespace OnboardingProcessor
             Log.Information($"Scheduling sales call for account {m.AccountId}.");
             await Task.Delay(500); // Pretend we're doing something!
             await _bus.Reply(new SalesCallScheduled { AccountId = m.AccountId });
+        }
+    }
+
+    public class CancelSalesCallHandler : IHandleMessages<CancelSalesCall>
+    {
+        public Task Handle(CancelSalesCall m)
+        {
+            Log.Information($"Cancelling sales call for account {m.AccountId}.");
+            return Task.CompletedTask;
+        }
+    }
+
+    public class NotifyServiceDeskHandler : IHandleMessages<NotifyServiceDesk>
+    {
+        public Task Handle(NotifyServiceDesk m)
+        {
+            Log.Information($"Notifying the service desk that: {m.Message}.");
+            return Task.CompletedTask;
         }
     }
 }
