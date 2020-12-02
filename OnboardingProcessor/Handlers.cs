@@ -62,6 +62,7 @@ namespace OnboardingProcessor
     {
         public Task Handle(CancelSalesCall m)
         {
+            // Cancellation should allow for the call not having been placed as yet.
             Log.Information($"Cancelling sales call for account {m.AccountId}.");
             return Task.CompletedTask;
         }
