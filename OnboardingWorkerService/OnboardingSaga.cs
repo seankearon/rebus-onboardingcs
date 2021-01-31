@@ -6,7 +6,7 @@ using Rebus.Handlers;
 using Rebus.Sagas;
 using Serilog;
 
-namespace OnboardingProcessor
+namespace OnboardingWorkerService
 {
     public class OnboardingSagaData: ISagaData
     {

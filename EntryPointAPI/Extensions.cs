@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnboardingMessages;
-using Rebus.Config;
 using Rebus.Retry.Simple;
 using Rebus.Routing.TypeBased;
 using Rebus.ServiceProvider;
+using Rebus.Transport.FileSystem;
 
 namespace EntryPointAPI
 {
@@ -16,7 +16,7 @@ namespace EntryPointAPI
                 rebus => rebus
                    .Logging(l => l.Console())
                    .Routing(r => r.TypeBased().Map<OnboardNewCustomer>("MainQueue"))
-                   .Transport(t => t.UseAzureServiceBusAsOneWayClient(config.GetConnectionString("AzureServiceBusConnectionString")))
+                   .Transport(t => t.UseFileSystemAsOneWayClient("c:/rebus-advent"))
                    .Options(t => t.SimpleRetryStrategy(errorQueueAddress: "ErrorQueue")));
         }
     }

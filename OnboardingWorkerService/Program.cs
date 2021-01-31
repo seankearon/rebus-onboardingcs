@@ -1,14 +1,15 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
-using Topper;
 
-namespace OnboardingProcessor
+namespace OnboardingWorkerService
 {
-    static class Program
+    public class Program
     {
-        private static IConfiguration Configuration { get; set; }
+        public static IConfigurationRoot Configuration { get; set; }
 
-        static void Main()
+        public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
                .WriteTo.Console()
@@ -16,10 +17,7 @@ namespace OnboardingProcessor
 
             ReadConfiguration();
 
-            var serviceConfiguration = new ServiceConfiguration()
-               .Add("OurBackendBus", () => new Backend(Configuration));
-
-            ServiceHost.Run(serviceConfiguration);
+            CreateHostBuilder(args).Build().Run();
         }
 
         private static void ReadConfiguration()
@@ -41,5 +39,13 @@ namespace OnboardingProcessor
 
             Configuration = builder.Build();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddSingleton(Configuration);
+                    services.AddHostedService<RebusHostedService>();
+                });
     }
 }

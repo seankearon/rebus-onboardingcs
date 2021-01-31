@@ -5,7 +5,7 @@ using Rebus.Bus;
 using Rebus.Handlers;
 using Serilog;
 
-namespace OnboardingProcessor
+namespace OnboardingWorkerService
 {
     public class CreateCustomerAccountHandler : IHandleMessages<CreateCustomerAccount>
     {
