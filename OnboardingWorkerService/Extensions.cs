@@ -17,12 +17,13 @@ namespace OnboardingWorkerService
         {
             services.AddRebus(
                 rebus => rebus
-                   .Logging(l   => l.Serilog())
-                   .Routing(r   => r.TypeBased().MapAssemblyOf<OnboardNewCustomer>("MainQueue"))
-                   .Transport(t => t.UseFileSystem("c:/rebus-advent", "MainQueue"))
-                   .Options(t   => t.SimpleRetryStrategy(errorQueueAddress: "ErrorQueue"))
-                   .Options(t   => t.EnableMessageAuditing(auditQueue: "AuditQueue"))
-                   .Sagas(s     => s.UseFilesystem("c:/rebus-advent/sagas"))
+                   .Logging(x   => x.Serilog())
+                   .Routing(x   => x.TypeBased().MapAssemblyOf<OnboardNewCustomer>("MainQueue"))
+                   .Transport(x => x.UseFileSystem("c:/rebus-advent", "MainQueue"))
+                   .Options(x   => x.SimpleRetryStrategy(errorQueueAddress: "ErrorQueue"))
+                   .Options(x   => x.EnableMessageAuditing(auditQueue: "AuditQueue"))
+                   .Sagas(x     => x.UseFilesystem("c:/rebus-advent/sagas"))
+                   .Timeouts(x  => x.UseFileSystem("c:/rebus-advent/timeouts"))
             );
 
             services.AutoRegisterHandlersFromAssemblyOf<RebusHostedService>();
