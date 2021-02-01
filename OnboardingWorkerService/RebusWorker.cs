@@ -36,7 +36,7 @@ namespace OnboardingWorkerService
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            await _provider.DisposeAsync();
+            await _provider.DisposeAsync(); // This will dispose of the bus.
         }
     }
 }
