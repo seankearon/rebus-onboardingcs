@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.Bus;
+using Rebus.Config;
 
 namespace OnboardingProcessor
 {
@@ -15,7 +16,8 @@ namespace OnboardingProcessor
             var services = new ServiceCollection();
             services.AddRebusAsSendAndReceive(configuration);
             _provider = services.BuildServiceProvider();
-            _bus      = _provider.GetRequiredService<IBus>();
+            _provider.StartRebus();
+            _bus = _provider.GetRequiredService<IBus>();
         }
 
         public void Dispose()
