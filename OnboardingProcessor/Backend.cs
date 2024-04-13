@@ -1,21 +1,23 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.Bus;
+using Rebus.Config;
 
 namespace OnboardingProcessor
 {
     public class Backend : IDisposable
     {
         private readonly ServiceProvider _provider;
-        private          IBus            _bus;
+        private readonly IBus            _bus;
 
         public Backend(IConfiguration configuration)
         {
             var services = new ServiceCollection();
-            services.AddRebusAsSendAndReceive(configuration, bus => Task.FromResult(_bus = bus));
+            services.AddRebusAsSendAndReceive(configuration);
             _provider = services.BuildServiceProvider();
+            _provider.StartRebus();
+            _bus = _provider.GetRequiredService<IBus>();
         }
 
         public void Dispose()
